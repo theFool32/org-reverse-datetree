@@ -249,6 +249,13 @@ of `org-read-date-prefer-future'."
         (apply #'encode-time time))
     (defalias 'org-reverse-datetree--encode-time #'encode-time)))
 
+
+
+(defcustom org-reverse-datetree-ignored-heading-text nil
+  "Specific heading text ignored by `org-reverse-datetree--find-or-insert'."
+  :type '(list)
+  :group 'org-reverse-datetree)
+
 ;;;; Common utilities
 
 (defun org-reverse-datetree--read-date ()
@@ -525,6 +532,7 @@ order i.e. non-reverse datetree."
                                        (end-of-line 1)
                                        (setq found t)
                                        (throw 'search t)))
+           ((member here org-reverse-datetree-ignored-heading-text))
            ((if asc
                 (string> here text)
               (string< here text))
